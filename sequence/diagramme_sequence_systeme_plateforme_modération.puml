@@ -1,0 +1,30 @@
+@startuml
+
+title Modération d'un commentaire
+
+actor Internaute
+actor Modérateur
+participant "CommentController" as Controller <<CommentController>>
+database DB
+
+Internaute -> Controller++: DemandePublication(commentaire)
+Controller --> Internaute: notifAttenteValidation(commentaire)
+Controller --> Modérateur: notifModererCommentaire(commentaire)
+Modérateur -> Controller: modererCommentaire(commentaire, statutCommentaire)
+Controller --> Modérateur--: commentaireModéré(commentaire)
+
+alt #MistyRose statutCommentaire = true
+
+Controller -> DB++: saveToDB(commentaire)
+alt isSaved = true
+Controller -> Controller: publierCommentaire(commentaire)
+end alt
+
+DB --> Controller--: isSavedNotification(commentaire, isSaved)
+Controller --> Modérateur: isSavedNotification(commentaire, isSaved)
+Controller --> Internaute: notifCommentaireAccepte()
+else
+Controller --> Internaute: notifCommentaireRefuse(raisonRefus, commentaire)
+end
+
+@enduml

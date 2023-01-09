@@ -1,0 +1,79 @@
+@startuml Usecase
+
+:Visiteur:
+:Internaute:
+:Modérateur:
+:Administrateur:
+:Rédacteur:
+:Utilisateur:
+
+agent "Service de notification commentaires" <<actor>> as ServiceNotifComment
+
+rectangle "Plateforme de contenu" {
+
+usecase (consulter article) as Consulter
+usecase (rédiger article) as Rédiger
+usecase (commenter article) as Commenter
+usecase (éditer article) as Editer
+usecase (supprimer article) as Supprimer
+usecase (modérer commentaire) as Modérer
+'usecase (accepter commentaire) as AccepterCommentaire
+'usecase (refuser commentaire) as RefuserCommentaire
+usecase (catégoriser article) as Catégoriser
+usecase (s'identifier) as Authentification
+usecase (gérer les tags) as GérerTags
+usecase (gérer les catégories) as GérerCatégories
+'usecase (créer Tag) as CreerTag
+'usecase (éditer Tag) as EditerTag
+'usecase (supprimer tag) as SupprimerTag
+usecase (notifier commentaire) as NotifierCommentaire
+
+left to right direction
+Utilisateur --- Authentification 
+Utilisateur <|--Administrateur
+Utilisateur <|--Visiteur
+Utilisateur <|--Rédacteur
+Utilisateur <|--Modérateur
+Utilisateur <|--Internaute
+
+Utilisateur -- Consulter #line:red;line.bold;
+
+Internaute -- Commenter #green
+
+Rédacteur --- Authentification
+Rédacteur --- Editer
+Rédacteur --- Rédiger
+Rédacteur --- Supprimer
+Rédacteur --- Catégoriser
+
+Modérateur -- Authentification #orange
+Modérateur -- Modérer #orange
+'Modérateur -- AccepterCommentaire
+'Modérateur -- RefuserCommentaire
+
+Administrateur -- Authentification
+Administrateur -- GérerCatégories
+Administrateur -- GérerTags
+'Administrateur -- CreerTag
+'Administrateur -- EditerTag
+'Administrateur -- SupprimerTag
+Administrateur -- Supprimer
+Administrateur -- Editer
+
+ServiceNotifComment - NotifierCommentaire
+
+NotifierCommentaire --> Modérateur #orange
+
+Editer ..> Authentification #red : include
+Supprimer ..> Authentification #red : include
+GérerTags ..> Authentification #red : include
+GérerCatégories ..> Authentification #red : include
+Commenter ..> Authentification #red : include
+Catégoriser ..> Authentification #red : include
+Modérer ..> Authentification #red : include
+Rédiger ..> Authentification #red : include
+
+
+}
+
+@enduml

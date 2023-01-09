@@ -1,0 +1,16 @@
+@startuml
+start
+:modérateur connecté;
+
+:notification modération reçue;
+
+:consultation du commentaire;
+
+if(commentaire accepté ?) then (oui)
+    :publication commentaire;
+else (non)
+    : commentaire masqué;
+endif
+
+stop
+@enduml

@@ -1,0 +1,15 @@
+@startuml
+start
+:administrateur connecté;
+
+split
+   :création tags;
+split again
+   :modification tags;
+split again
+   :suppression tags;
+end split
+    :mise à jour des tags;
+
+stop
+@enduml

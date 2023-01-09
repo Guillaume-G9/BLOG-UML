@@ -1,0 +1,10 @@
+@startuml
+start
+:consulter page de login;
+
+repeat :saisir identifiant et mdp;
+repeat while () is (invalides) not (valides)
+:afficher page d'accueil;
+
+stop
+@enduml

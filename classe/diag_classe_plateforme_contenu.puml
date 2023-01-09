@@ -1,0 +1,77 @@
+@startuml Classe
+
+class Article{
+-titre:str 
+-contenu:str
+-date:Date
+}
+
+class Commentaire{
+    -contenu:str
+}
+
+class Categorie{
+    -nom:str
+    +getCategorie()
+    +setCategorie()
+}
+
+class Tag{
+    -nom:str
+    +getTag()
+    +setTag()
+}
+
+class Utilisateur{
+    - consulter(article:Article)
+}
+
+class Visiteur extends Utilisateur{
+    -se_logger(login, mdp)
+}
+
+
+class Internaute extends Utilisateur{
+    - pseudo:str
+    - id:int
+    - email:str
+    
+    + getEmail()
+    -commenterArticle(article:Article)
+}
+
+class Redacteur extends Internaute{
+    - redigerArticle()
+    - modifierArticle(article:Article)
+    - supprimerArticle(article:Article)
+    - associerCategorie(article:Article)
+    - associerTag(article:Article)
+}
+
+class Moderateur extends Utilisateur{
+    - consulterCommentaire(commentaire:Commentaire)
+    - validerCommentaire(commentaire:Commentaire)
+    - refuserCommentaire(commentaire:Commentaire)
+}
+
+class Admin extends Utilisateur{
+    - modifierArticle(article:Article)
+    - supprimerArticle(article:Article)
+    - creerTag()
+    - modifierTag(tag:Tag)
+    - supprimerTag(tag:Tag)
+    - creerCategorie()
+    - modifierCategorie(cat:Categorie)
+    - supprimerCategorie(cat:Categorie)
+}
+
+left to right direction
+Article "0..*" --> "1" Redacteur
+Article "1" --> "0..*" Commentaire
+Article "0..*" --> "0..*" Tag
+Article "0..*" --> "0..*" Categorie
+
+Internaute "1" --> "0..*" Commentaire
+
+
+@enduml

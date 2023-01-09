@@ -1,0 +1,37 @@
+@startuml Seq
+
+title Rédaction d'un article
+
+actor Rédacteur
+participant "ArticleController" as Controller <<ArticleController>>
+database DB
+
+Rédacteur -> Controller++: CréerArticle()
+Controller  --> Rédacteur: FormulaireArticle
+Rédacteur -> Controller: saisirArticle(titre, contenu, catégorie, tags)
+Controller -> Controller: verificationArticle(article, isCorrect)
+
+
+loop isCorrect = false
+Controller  --> Rédacteur: FormulaireArticle(article,errorFields)
+Rédacteur -> Controller: saisirArticle(titre, contenu, catégorie, tags)
+Controller -> Controller: verificationArticle(article, isCorrect)
+end loop
+
+Controller --> Rédacteur: articleCree(article)
+
+Rédacteur -> Controller: demanderPublication(article)
+Controller --> Rédacteur--: publicationDemandée(article)
+Controller -> DB++: enregistrerDB(article)
+
+alt isSave = true
+DB --> Controller: isSaved(true)
+Controller -> Controller: publierArticle(article)
+
+else
+DB --> Controller--: isSaved(false)
+end alt
+
+Controller --> Rédacteur: notificationPublication(article, statutPublication)
+
+@enduml
