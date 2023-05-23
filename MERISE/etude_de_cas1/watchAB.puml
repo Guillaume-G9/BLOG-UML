@@ -1,0 +1,33 @@
+@startuml Digital Watch
+
+hide empty description
+
+[*] -> DisplayTime
+
+state "Affichage de l'heure" as DisplayTime 
+
+
+state "Réglage de l'heure" as SetTime {
+   [*] --> SetHour
+
+   state "Réglage des minutes" as SetMinute {
+
+   }
+   [*] --> SetMinute
+   state "Réglage des heures" as SetHour {
+
+   }
+}
+
+DisplayTime --> SetTime : Appui bouton réglage (A)
+
+SetTime --> DisplayTime : Annulation réglage (A)
+SetTime --> DisplayTime : Succès réglage (A)
+
+DisplayTime -> [*]
+SetTime --> [*]
+
+'note on link
+'this is a state-transition note
+'end note
+

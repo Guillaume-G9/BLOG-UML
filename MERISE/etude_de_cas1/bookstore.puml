@@ -1,0 +1,67 @@
+@startuml Bookstore Usecase
+
+scale 0.9
+
+:Visiteur:
+:Administrateur:
+:Client:
+:Internaute:
+
+agent "BookBank" <<ActeurExterne>> as BookBank
+agent "Gestion stock" <<ActeurExterne>> as GestionStock
+
+rectangle "BookStore e-commerce" {
+
+usecase (Poster un ouvrage) as Poster
+usecase (Editer ouvrage) as Editer
+usecase (Supprimer ouvrage) as Supprimer
+usecase (S'identifier) as Authentification
+usecase (S'inscrire) as Inscription
+usecase (Gérer le panier) as GérerPanier
+usecase (Gestion des clients) as GestionCLients
+usecase (Rechercher un ouvrage) as RechercherOuvrage
+usecase (Consulter un ouvrage) as ConsulterOuvrage
+usecase (Commander un ouvrage) as CommanderOuvrage
+usecase (Payer) as Payer
+usecase (Maintenance du catalogue) as MaintenanceCatalogue
+usecase (Maintenance du site) as MaintenanceSite
+
+
+left to right direction
+Client --- Authentification 
+Client <|--Administrateur
+Client <|--Visiteur
+Client <|--Rédacteur
+Client <|--Modérateur
+
+Client -- ConsulterOuvrage
+Client -- CommanderOuvrage
+Client -- Payer
+
+BookBank -- Payer
+
+GestionStock -- MaintenanceCatalogue
+
+Administrateur --- Editer
+Administrateur --- Poster
+Administrateur --- Supprimer
+Administrateur -- Authentification
+Administrateur -- Supprimer
+Administrateur -- Editer
+Administrateur -- GestionClients
+Administrateur -- MaintenanceSite
+
+Visiteur --- Inscription
+
+Internaute --- RechercherOuvrage
+Internaute --- ConsulterOuvrage
+
+Authentification <.. MaintenanceCatalogue #red : include 
+Editer ..> Authentification #red : include
+Supprimer ..> Authentification #red : include
+GérerCatégories ..> Authentification #red : include
+Catégoriser ..> Authentification #red : include
+Poster ..> Authentification #red : include
+
+
+}
