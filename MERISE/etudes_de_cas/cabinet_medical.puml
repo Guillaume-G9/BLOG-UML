@@ -1,8 +1,40 @@
 @startuml Cabinet Medical
 
-scale 0.7
 
 Title CabinetMedical
+
+class Famille {
+    -nom
+    -nombreMembres
+    -symptomesRecurrents
+    +ajouterMembre()
+    +supprimerMembre()
+    +afficherMembres()
+    +getNom()
+    +setNom(String)
+    +getNombreMembres()
+    +setNombreMembre(int)
+    +getSymptomesRecurrents()
+    +setSymptomesRecurrents(symptomes: String)
+}
+
+class Appartenance {
+    -patient
+    -famille
+    +ajouterAppartenance()
+    +supprimerAppartenance()
+    +afficherAppartenance()
+    +getPatient()
+    +getFamille()
+}
+
+class TraitementMedicamenteux {
+    -medicament
+    -traitement
+    +ajouterTraitementMedicamenteux()
+    +supprimerTraitementMedicamenteux()
+    +afficherTraitementMedicamenteux()
+}
 
 class Agenda {
     -date
@@ -13,6 +45,11 @@ class Agenda {
     +ajouterConsultation()
     +supprimerConsultation()
     +afficherConsultation()
+    +getDate()
+    +getHeure()
+    +getMedecin()
+    +getPatient()
+    +getConsultation()
 }
 
 class Medicament {
@@ -30,9 +67,21 @@ class Medicament {
     +ajouterMedicament()
     +supprimerMedicament()
     +afficherMedicament()
+    +getReference()
+    +isSurOrdonnance()
+    +getDatePeremption()
+    +getPrix()
+    +getQuantite()
+    +getNom()
+    +getMarque()
+    +getDescription()
+    +getPosologie()
+    +getDureeTraitement()
 }
 
 class Traitement {
+    -medecin
+    -patient
     -reference
     -type
     -medicaments
@@ -43,6 +92,15 @@ class Traitement {
     +ajouterTraitement()
     +supprimerTraitement()
     +afficherTraitement()
+    +getMedecin()
+    +getPatient()
+    +getReference()
+    +getType()
+    +getMedicaments()
+    +getPosologie()
+    +getDuree()
+    +getDateDebut()
+    +getDateFin()
 }
 
 class Maladie {
@@ -51,6 +109,8 @@ class Maladie {
     +ajouterMaladie()
     +supprimerMaladie()
     +afficherMaladie()
+    +getReference()
+    +getType()
 }
 
 class Symptomes {
@@ -104,6 +164,8 @@ class Medecin {
     +ajouterPatient()
     +supprimerPatient()
     +afficherPatients()
+    +prescrireMedicament()
+    +effectuerConsultation()
 }
 
 class Patient {
@@ -115,13 +177,11 @@ class Patient {
     -sexe
     -numeroAssuranceMaladie
     -medecin
-    -infirmier
-    -lit
     +prendreRendezVous()
     +getMedecin()
-    +getInfirmier()
-    +getLit()
 }
+
+left to right direction
 
 Medecin "1.1" -- "0.*" Patient
 CabinetMedical "1.1"  -- "0.*" Medecin
@@ -129,9 +189,13 @@ CabinetMedical "1.1"  -- "0.*" Patient
 CabinetMedical "1.1"  -- "0.*" Consultation
 Consultation "1.1" -- "0.*" Patient
 Patient "0.*" -- "0.*" Symptomes
+Patient "0.*" -- "0.*" Maladie
+Patient "0.*" -- "0.*" Traitement
 Symptomes "0.*" -- "0.*" Maladie
 Maladie "1.*" -- "0.*" Traitement
 Traitement "1.*" -- "0.*" Medicament
 Agenda "1.1" -- "0.*" Consultation
+Patient "1.*" -- "1.*" Famille
+Famille "0.*" -- "0.*" Symptomes
 
 @enduml

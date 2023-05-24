@@ -1,0 +1,78 @@
+@startuml Recettes de cuisine
+
+class "Recette" as recette {
+    + Nom
+    + Description
+    + DuréePréparation
+    + DuréeCuisson
+    + CaloriesParPersonne
+    + NombreDeParts
+    + NiveauDifficulté
+    --
+    + ajouterIngredient(ingredient: Ingrédient, quantité: Quantité)
+    + supprimerIngredient(ingredient: Ingrédient)
+    + afficherIngredients()
+}
+
+class "Ingrédient" as ingredient {
+    + Nom
+    + CaloriesPour100g
+    --
+    + ajouterProduit(produit: Produit)
+    + supprimerProduit(produit: Produit)
+    + afficherProduits()
+}
+
+class "Stock" as stock {
+    + LieuStockage(String)
+    --
+    + ajouterIngrédient(ingrédient: Ingrédient)
+    + supprimerIngrédient(ingrédient: Ingrédient)
+    + afficherIngrédients()
+}
+
+class "Rangement" as rangement {
+    + Nom(String)
+    --
+    + ajouterStock(stock: Stock)
+    + supprimerStock(stock: Stock)
+    + afficherStocks()
+}
+
+class "Produit" as produit {
+    + Quantité
+    +ajouterRecette()
+    +supprimerRecette()
+    +afficherRecettes()
+}
+
+class "RecetteProduit" as recetteProduit {
+    +IDRecette (foreign key)
+    +IDProduit (foreign key)
+    +Quantité
+    +ajouterAssociationRecetteProduit(IDRecette: int, IDProduit: int, Quantité: int)
+    +supprimerAssociationRecetteProduit(IDRecette: int, IDProduit: int)
+    +modifierQuantitéAssociationRecetteProduit(IDRecette: int, IDProduit: int, NouvelleQuantité: int)
+    +afficherProduitsRecette(IDRecette: int)
+    +afficherRecettesProduit(IDProduit: int)
+}
+
+class "RangementStock" as rangementStock {
+    + IDRangement (foreign key)
+    + IDStock (foreign key)
+    + ajouterAssociationRangementStock(IDRangement: int, IDStock: int)
+    + supprimerAssociationRangementStock(IDRangement: int, IDStock: int)
+    + afficherStocksRangement(IDRangement: int)
+    + afficherRangementsStock(IDStock: int)
+}
+
+recette "0.*"--"1.*" produit : nécessite"
+produit "0.*"--"1.*" ingredient : "constitué de"
+ingredient "0.*"--"0.*" stock : "stocké dans"
+stock "0.*"--"0.*" rangement : "appartient à"
+recette "1.1" -- "0..*" recetteProduit
+produit "1.1" -- "0..*" recetteProduit
+rangement "1.1" -- "0..*" rangementStock
+stock "1.1" -- "0..*" rangementStock
+
+@enduml
