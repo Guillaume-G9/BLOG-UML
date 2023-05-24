@@ -1,0 +1,137 @@
+@startuml Cabinet Medical
+
+scale 0.7
+
+Title CabinetMedical
+
+class Agenda {
+    -date
+    -heure
+    -medecin
+    -patient
+    -consultation
+    +ajouterConsultation()
+    +supprimerConsultation()
+    +afficherConsultation()
+}
+
+class Medicament {
+    -reference
+    -type
+    -surOrdonance
+    -datePeremption
+    -prix
+    -quantite
+    -nom
+    -marque
+    -description
+    -posologie
+    -dureeTraitement
+    +ajouterMedicament()
+    +supprimerMedicament()
+    +afficherMedicament()
+}
+
+class Traitement {
+    -reference
+    -type
+    -medicaments
+    -posologie
+    -duree
+    -dateDebut
+    -dateFin
+    +ajouterTraitement()
+    +supprimerTraitement()
+    +afficherTraitement()
+}
+
+class Maladie {
+    -reference
+    -type
+    +ajouterMaladie()
+    +supprimerMaladie()
+    +afficherMaladie()
+}
+
+class Symptomes {
+    -reference
+    -type
+    +ajouterSymptomes()
+    +supprimerSymptomes()
+    +afficherSymptomes()
+}
+
+class Consultation {
+    -prix
+    -reference
+    -type
+    -date
+    -patient
+    +ajouterConsultation()
+    +supprimerConsultation()
+    +afficherConsultation()
+}
+
+class CabinetMedical {
+    -nom
+    -adresse
+    -telephone
+    -listeMedecins
+    -listePatients
+    -listeConsultations
+    +ajouterMedecin()
+    +ajouterPatient()
+    +ajouterVisite()
+    +rechercherMedecin()
+    +rechercherPatient()
+    +rechercherVisite()
+    +supprimerMedecin()
+    +supprimerPatient()
+    +supprimerVisite()
+    +afficherMedecins()
+    +afficherPatients()
+    +afficherConsultations()
+}
+
+class Medecin {
+    -specialite
+    -numeroEmploye
+    -nom
+    -prenom
+    -adresse
+    -telephone
+    -listePatients
+    +ajouterPatient()
+    +supprimerPatient()
+    +afficherPatients()
+}
+
+class Patient {
+    -nom
+    -prenom
+    -adresse
+    -telephone
+    -dateNaissance
+    -sexe
+    -numeroAssuranceMaladie
+    -medecin
+    -infirmier
+    -lit
+    +prendreRendezVous()
+    +getMedecin()
+    +getInfirmier()
+    +getLit()
+}
+
+Medecin "1.1" -- "0.*" Patient
+CabinetMedical "1.1"  -- "0.*" Medecin
+CabinetMedical "1.1"  -- "0.*" Patient
+CabinetMedical "1.1"  -- "0.*" Consultation
+Consultation "1.1" -- "0.*" Patient
+Patient "0.*" -- "0.*" Symptomes
+Symptomes "0.*" -- "0.*" Maladie
+Maladie "1.*" -- "0.*" Traitement
+Traitement "1.*" -- "0.*" Medicament
+Agenda "1.1" -- "0.*" Consultation
+
+@enduml
